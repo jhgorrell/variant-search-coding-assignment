@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# invitae-hw-variant-search/bin/invitae-vs-server ---
+#
+# Run the gunicorn version of the server.
+
+export SCRIPT_DIR=$(builtin cd "$(dirname ${BASH_SOURCE[0]})" && builtin pwd)
+
+set -o errexit
+
+#####
+
+export FLASK_APP=${FLASK_APP:-invitae_vs_server.server:app}
+
+gunicorn \
+  --workers 4 \
+  --bind ${INVITAE_VS_SERVER_BIND}:${INVITAE_VS_SERVER_PORT} \
+  ${FLASK_APP}

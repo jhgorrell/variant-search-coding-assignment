@@ -1,0 +1,14 @@
+**/*.du
+**/*.fof
+**/*.log
+**/*.pyc
+**/*.tmp
+**/*~
+**/.DS_Store
+**/OLD*
+**/__pycache__
+**/tmp*
+test-*
+tmp/
+ve
+ve-*

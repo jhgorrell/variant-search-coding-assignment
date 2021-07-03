@@ -1,0 +1,95 @@
+{%- extends "base.html" %}
+
+{### styles ###}
+{% block styles %}
+{{super()}}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+{% endblock %}
+
+{### scripts ###}
+{% block scripts %}
+{{super()}}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+<script src="{{url_for('static', filename='js/search_page.js')}}"></script>
+
+{% endblock %}
+
+
+{### content ###}
+
+{% block content %}
+
+<div class="vs_div vs_search_div">
+<div class="vs_title vs_search_title">
+<h3>Search</h3>
+</div>
+
+<form>
+  <table>
+    <tr>
+      <td>Gene Name:<br><i>('like' expression)</td>
+      <td><input type="text" size="30" id="f_gene_name" value="A%"/></td>
+    </tr>
+    <tr>
+      <td>Genomic Start:<br><i>(start:stop)</i></td>
+      <td><input type="text" size="30" id="f_genomic_start"/></td>
+    </tr>
+    <tr>
+      <td>Genomic Stop:<br><i>(start:stop)</i></td>
+      <td><input type="text" size="30" id="f_genomic_stop"/></td>
+    </tr>
+    <tr>
+      <td>Limit<br><i>limit return</i></td>
+      <td><input type="text" size="30" id="f_limit" value="100"/></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="button" value="Search" onClick="vs_do_search()"></td>
+    </tr>
+  </table>
+</form>
+
+</div>
+
+
+<div class="vs_div vs_results_div">
+<div class="vs_title vs_results_title">
+<h3>Results</h3>
+</div>
+
+<i>Note: We can add more columns here,
+  extracted from "models.Variant".
+  (Cut for time.)
+</i>
+
+
+<table id="vs_results_table">
+  <thead>
+    <th>Gene</th>
+    <th>Chr</th>
+    <th>Genomic Start</th>
+    <th>Genomic Stop</th>
+    <th>Ref</th>
+    <th>Alt</th>
+    <th>Accession</th>
+  </thead>
+</table>
+
+</div>
+
+{% endblock %}

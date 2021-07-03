@@ -1,0 +1,58 @@
+#
+# invitae-hw-variant-search/ansible/deploy-server/deploy-server-play.yml ---
+#
+# Release the Kraken!
+
+- hosts: localhost
+  vars:
+    INVITAE_VS_CLIENT: "{{lookup('env','INVITAE_VS_CLIENT')}}"
+    INVITAE_VS_DEPLOY: "{{lookup('env','INVITAE_VS_DEPLOY')}}"
+    INVITAE_VS_DIR: "/opt/invitae-hw-variant-search"
+    INVITAE_VS_DB_URI: "sqlite:///{{INVITAE_VS_DIR}}/data/variants.tsv.DB"
+    INVITAE_VS_SERVER_PORT: "5622"
+
+  tasks:
+
+    - name: "invitae-vs-{{INVITAE_VS_CLIENT}}-{{INVITAE_VS_DEPLOY}}"
+      docker_container:
+        image: "invitae_vs_{{INVITAE_VS_CLIENT}}_{{INVITAE_VS_DEPLOY}}"
+        # cant pull - we only make a local image
+        # pull: true
+        name: "invitae_vs_{{INVITAE_VS_CLIENT}}_{{INVITAE_VS_DEPLOY}}"
+        hostname: "invitae_vs_{{INVITAE_VS_CLIENT}}_{{INVITAE_VS_DEPLOY}}"
+        state: started
+        restart_policy: unless-stopped
+        recreate: yes
+        restart: yes
+        # user: "nobody:nobody"
+        command: "{{INVITAE_VS_DIR}}/bin/invitae-vs-server"
+        env:
+          INVITAE_VS_SERVER_BIND: "0.0.0.0"
+          INVITAE_VS_SERVER_PORT: "{{INVITAE_VS_SERVER_PORT}}"
+          #
+          INVITAE_VS_DB_URI: "{{INVITAE_VS_DB_URI}}"
+        network_mode: host
+#        ports:
+#          - "{{INVITAE_VS_SERVER_PORT}}:{{INVITAE_VS_SERVER_PORT}}"
+
+- hosts: "gw-1.home.mahalito.net"
+  remote_user: "jenkins"
+  become: yes
+  become_user: "root"
+
+  roles:
+
+    - name: nginx_proxy
+      nginx_proxy_server_name: "invitae-vs-dev.home.mahalito.net"
+      nginx_proxy_ssl_name: "invitae-vs-dev.home.mahalito.net"
+      nginx_proxy_listen_ip: "0.0.0.0"
+      nginx_proxy_listen_port: "443"
+      nginx_proxy_proxy_pass: "http://{{nginx_proxy_name}}"
+      nginx_proxy_ip_filter:
+        - "allow all"
+      #
+      nginx_proxy_name: "invitae_vs_dev"
+      nginx_proxy_upstream_addr: "10.22.1.1"
+      nginx_proxy_upstream_port: "5622"
+      nginx_proxy_proxy_redirect:
+          - "http://localhost:5622/ https://"

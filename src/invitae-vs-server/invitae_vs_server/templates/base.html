@@ -1,0 +1,66 @@
+{#
+ mrsgui/mrsgui-server/mrsgui_server/templates/base.html ---
+#}
+{%- extends "bootstrap/base.html" %}
+
+{% import "bootstrap/utils.html" as utils %}
+
+{% block title %}
+invitae-hw-variant-search
+{% endblock %}
+
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+
+{% block head_extra %}
+{% endblock %}
+
+{%- endblock %}
+
+{% block styles -%}
+{{super()}} 
+
+<link 
+  rel="icon" 
+  type="image/ico"
+  href="{{url_for('static', filename='images/favicon.ico')}}">
+<link 
+  rel="stylesheet" 
+  type="text/css"
+  href="{{url_for('static', filename='css/base.css')}}">
+<link 
+  rel="stylesheet" 
+  type="text/css"
+  href="{{url_for('static', filename='css/'+INVITAE_VS_CLIENT+'_'+INVITAE_VS_DEPLOY+'.css')}}">
+
+{% endblock %}
+
+{### scripts ###}
+
+{% block scripts %}
+{{super()}}
+{% endblock %}
+
+{### navbar ###}
+
+{% block navbar %}
+<div width="100%" class="vs_navbar_div">
+Variant Search | 
+<a href="{{url_for('search')}}">Search</a> |
+<a href="{{url_for('server_info')}}">Server Info</a> |
+{{INVITAE_VS_CLIENT}}-{{INVITAE_VS_DEPLOY}}
+</div>
+{% endblock %}
+
+{### content ###}
+
+{% block content %}
+
+{% block page_content %}
+Content will go here.
+{% endblock %}
+
+{% endblock %}

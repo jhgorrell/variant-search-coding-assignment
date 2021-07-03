@@ -1,0 +1,30 @@
+/*
+ invitae-hw-variant-search/src/invitae-vs-server/invitae_vs_server/static/css/base.css ---
+*/
+
+body {
+     background-color: #ffffff;
+     padding-left:  12px;
+     padding-right: 12px;
+}
+
+.vs_title {
+    font-family: fixed;
+}
+
+.vs_div {
+    clear: both;
+}
+
+.vs_navbar_div {
+    background-color: #ff99cc;
+    font-size: 200%;
+}
+    
+.vs_search_title {
+    background-color: #99ff99;
+}
+
+.vs_results_title {
+    background-color: #ccffff;
+}

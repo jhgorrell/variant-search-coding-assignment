@@ -1,0 +1,10 @@
+#
+# invitae-hw-variant-search/ansible/deploy-server/local-dev-inv.yml ---
+#
+
+all:
+  vars:
+
+  hosts:
+    gw-1.home.mahalito.net:
+      INVITAE_VS_SERVER_PORT: "5622"

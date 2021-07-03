@@ -1,0 +1,28 @@
+#
+# invitae-hw-variant-search/ansible/docker-install/docker-install-play.yml ---
+#
+# Install our stuff inside docker.
+#
+
+- hosts: localhost
+  vars:
+    INVITAE_VS_DIR: "{{lookup('env','INVITAE_VS_DIR')}}"
+
+  tasks:
+
+    - name: "apt"
+      apt:
+        pkg:
+          - "make"
+          - "python3-venv"
+          - "sqlite3"
+
+    - name: "build ve"
+      shell:
+        chdir: "{{INVITAE_VS_DIR}}"
+        cmd: |
+          source ./setup.env
+          #
+          export INVITAE_VS_VE_DIR={{INVITAE_VS_DIR}}/ve
+          make _ve_rebuild
+        executable: /bin/bash
